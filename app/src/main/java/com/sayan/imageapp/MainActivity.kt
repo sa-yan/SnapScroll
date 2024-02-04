@@ -23,9 +23,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSearch:Button
     private lateinit var imageRecycler:RecyclerView
     private lateinit var queue:RequestQueue;
-    private lateinit var imageUrlList:ArrayList<String>;
+    private lateinit var imageUrlList:ArrayList<String>
 
-    lateinit var url:String
+    var totalImage = 0
+
+
 
     private val CLIENT_ID = "wiB8UpLc0ir0dLor_FkYlBH7jplH-pf8LtH3n3d2BxU"
 
@@ -55,16 +57,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun getImagesByApi(type:String) {
         imageUrlList.clear()
-        url = "https://api.unsplash.com/search/photos/?query=${type}&client_id=${CLIENT_ID}&page=1&per_page=30"
-//        Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
+        val url = "https://api.unsplash.com/search/photos/?per_page=${30}&query=${type}&client_id=${CLIENT_ID}"
         val jsonObjectRequest = JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
             { response ->
-                    val jsonArray = response.getJSONArray("results")
+                totalImage = response.getInt("total")
+                val jsonArray = response.getJSONArray("results")
                 for (i in 0 until jsonArray.length()){
                     val urlsObjects = jsonArray.getJSONObject(i).getJSONObject("urls")
                     val regularImage = urlsObjects.getString("regular")
                     imageUrlList.add(regularImage)
-                    Log.d("Response",imageUrlList.get(i))
+                    Log.d("Response",totalImage.toString())
                 }
 
                 imageRecycler.adapter?.notifyDataSetChanged()
@@ -77,4 +79,5 @@ class MainActivity : AppCompatActivity() {
         queue.add(jsonObjectRequest)
 
     }
+
 }
