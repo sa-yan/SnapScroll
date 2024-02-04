@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getImagesByApi(type:String) {
         imageUrlList.clear()
-        url = "https://api.unsplash.com/search/photos/?query=${type}&client_id=${CLIENT_ID}&page=3&per_page=100"
+        url = "https://api.unsplash.com/search/photos/?query=${type}&client_id=${CLIENT_ID}&page=1&per_page=30"
 //        Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
         val jsonObjectRequest = JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
             { response ->
